@@ -8,6 +8,7 @@ package com.faculte.simplefaculteproduit.domain.model.dao;
 
 import com.faculte.simplefaculteproduit.domain.bean.TypeProduit;
 import java.math.BigDecimal;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,5 @@ import org.springframework.stereotype.Repository;
 public interface TypeProduitDao extends JpaRepository<TypeProduit, Long>{
     public TypeProduit findByLibelle(String libelle);
     public TypeProduit findByCode(BigDecimal code);
+    public List<TypeProduit> findByLibelleLike(String libelle);
 }

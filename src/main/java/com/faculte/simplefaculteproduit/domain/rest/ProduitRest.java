@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,8 +73,14 @@ public class ProduitRest {
     ) 
     {
         
-        return new  ProduitVoConverter().toVo(produitService.findByReferenceLike("%"+reference+"%"));
+        return new  ProduitVoConverter().toVo(produitService.findByReferenceLike(reference+"%"));
     }
+   
+    @DeleteMapping("/delete/{reference}")
+    public int deleteProduit(@PathVariable String reference) {
+        return produitService.deleteProduit(reference);
+    }
+    
 
    
     

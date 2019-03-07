@@ -70,6 +70,11 @@ public class CategorieProduitServiceImpl implements CategorieProduitService{
         }
         
     }
+
+    @Override
+    public List<CategorieProduit> findByLibelleLike(String libelle) {
+       return categorieProduitDao.findByLibelleLike(libelle);
+    }
     
     
     

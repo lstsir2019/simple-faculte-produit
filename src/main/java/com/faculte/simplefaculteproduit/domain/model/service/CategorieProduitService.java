@@ -6,7 +6,6 @@
  */
 package com.faculte.simplefaculteproduit.domain.model.service;
 
-
 import com.faculte.simplefaculteproduit.domain.bean.CategorieProduit;
 import java.util.List;
 
@@ -17,14 +16,15 @@ import java.util.List;
 public interface CategorieProduitService {
 
     public int save(CategorieProduit categorieProduit);
-    
 
     public CategorieProduit find(Long id);
 
     public List<CategorieProduit> findAll();
 
     public CategorieProduit findByLibelle(String libelle);
-    
+
     public int delate(String libelle);
+
+    public List<CategorieProduit> findByLibelleLike(String libelle);
 
 }

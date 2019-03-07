@@ -29,4 +29,5 @@ public interface ProduitService {
   // public Page<Produit> findByReferenceLike(String reference , Pageable pageable);
     
      public List<Produit> findByReferenceLike(String reference);
+     public int deleteProduit(String reference);
 }

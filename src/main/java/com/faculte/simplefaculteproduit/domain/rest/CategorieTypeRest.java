@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -69,6 +70,12 @@ public class CategorieTypeRest {
     public int delate(@PathVariable String libelle) {
       return cps.delate(libelle);
     }
+ 
+    @GetMapping("/categorie/chercher")
+    public List<CategorieProduitVo> findByLibelleLike(@RequestParam(name = "libelle",defaultValue = "") String libelle) {
+        return cpvc.toVo(cps.findByLibelleLike(libelle+"%"));
+    }
+    
     
     //*********TYPE PRODUIT******************
     @GetMapping("/type/findAll")
@@ -87,6 +94,19 @@ public class CategorieTypeRest {
         return tps.save(tp);
     }
 
+    @DeleteMapping("/type/delete/{code}")
+    public int deleteType(@PathVariable BigDecimal code) {
+        return tps.deleteType(code);
+    }
+
+    @GetMapping("/type/chercher")
+    public List<TypeProduitVo> findByLibelleLikeType(@RequestParam(name = "libelle",defaultValue = "") String libelle) {
+        return tpvc.toVo(tps.findByLibelleLikeType(libelle+"%"));
+    }
+
+  
+    
+  
     //************GETTER SETTER
     public TypeProduitService getTps() {
         return tps;

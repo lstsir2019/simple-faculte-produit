@@ -92,6 +92,17 @@ public class ProduitServiceImpl implements ProduitService {
         return produitDao.findByReferenceLike(reference);
     }
 
+    @Override
+    public int deleteProduit(String reference) {
+        Produit p=findByReference(reference);
+        if(p==null){
+            return -1;
+        }else{
+            produitDao.delete(p);
+            return 1;
+        }
+    }
+
    
 
 }

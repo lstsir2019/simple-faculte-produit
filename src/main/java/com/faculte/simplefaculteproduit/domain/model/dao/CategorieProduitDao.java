@@ -7,6 +7,7 @@ package com.faculte.simplefaculteproduit.domain.model.dao;
 
 
 import com.faculte.simplefaculteproduit.domain.bean.CategorieProduit;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +18,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategorieProduitDao extends JpaRepository<CategorieProduit, Long>{
     public CategorieProduit findByLibelle(String libelle);
+    public List<CategorieProduit> findByLibelleLike(String libelle);
     
 }

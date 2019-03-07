@@ -61,6 +61,22 @@ public class TypeProduitImpl implements TypeProduitService{
         this.typeProduitDao = typeProduitDao;
     }
 
+    @Override
+    public int deleteType(BigDecimal code) {
+        TypeProduit tp=findTypeByCode(code);
+        if(tp==null){
+            return -1;
+        }else{
+            typeProduitDao.delete(tp);
+            return 1;
+        }
+    }
+
+    @Override
+     public List<TypeProduit> findByLibelleLikeType(String libelle){
+        return typeProduitDao.findByLibelleLike(libelle);
+    }
+
    
     
     
