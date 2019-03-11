@@ -5,7 +5,6 @@
  */
 package com.faculte.simplefaculteproduit.domain.model.service;
 
-
 import com.faculte.simplefaculteproduit.domain.bean.Produit;
 import java.awt.print.Pageable;
 import java.util.List;
@@ -25,9 +24,13 @@ public interface ProduitService {
     public Produit find(Long id);
 
     public List<Produit> findAll();
+
+    // public Page<Produit> findByReferenceLike(String reference , Pageable pageable);
+    public List<Produit> findByReferenceLike(String reference);
+
+    public int deleteProduit(String reference);
     
-  // public Page<Produit> findByReferenceLike(String reference , Pageable pageable);
+    public int updateProduit(String reference,Produit produit);
     
-     public List<Produit> findByReferenceLike(String reference);
-     public int deleteProduit(String reference);
+    
 }

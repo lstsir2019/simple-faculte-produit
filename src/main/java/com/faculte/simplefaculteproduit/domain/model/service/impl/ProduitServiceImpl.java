@@ -103,6 +103,24 @@ public class ProduitServiceImpl implements ProduitService {
         }
     }
 
+    @Override
+    public int updateProduit(String reference, Produit produit) {
+        Produit p=findByReference(reference);
+        if(p==null){
+            return -1;
+        }else{
+            TypeProduit tp=typeProduitService.findTypeByCode(produit.getTypeProduit().getCode());
+            CategorieProduit cp=categorieProduitService.findByLibelle(produit.getCategorieProduit().getLibelle());
+            p.setReference(reference);
+            
+            p.setLibelle(produit.getLibelle());
+//            p.setCategorieProduit(cp);
+//            p.setTypeProduit(tp);
+            produitDao.save(p);
+            return 1;
+        }
+    }
+
    
 
 }

@@ -77,6 +77,19 @@ public class TypeProduitImpl implements TypeProduitService{
         return typeProduitDao.findByLibelleLike(libelle);
     }
 
+    @Override
+    public int updateType(BigDecimal code, TypeProduit typeProduit) {
+        TypeProduit tp=findTypeByCode(code);
+        if(tp==null){
+            return -1;
+        }else{
+            tp.setCode(code);
+            tp.setLibelle(typeProduit.getLibelle());
+            typeProduitDao.save(tp);
+            return 1;
+        }
+    }
+
    
     
     

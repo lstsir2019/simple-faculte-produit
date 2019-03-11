@@ -59,21 +59,31 @@ public class CategorieProduitServiceImpl implements CategorieProduitService{
      return categorieProduitDao.findByLibelle(libelle);
     }
 
-    @Override
-    public int delate(String libelle) {
-        CategorieProduit cp=findByLibelle(libelle);
-        if(cp==null){
-            return -1;
-        }else{
-            categorieProduitDao.delete(cp);
-            return 1;
-        }
-        
-    }
+   
 
     @Override
     public List<CategorieProduit> findByLibelleLike(String libelle) {
        return categorieProduitDao.findByLibelleLike(libelle);
+    }
+
+    @Override
+    public int deleteByLibelle(String libelle) {
+         categorieProduitDao.deleteByLibelle(libelle);
+         return 1;
+    }
+
+    @Override
+    public int updateCat(String libelle,CategorieProduit categorieProduit) {
+        CategorieProduit cp=findByLibelle(libelle);
+        if(cp==null){
+            return -1;
+        }else{
+            cp.setLibelle(libelle);
+            cp.setReferenceCompteBuditaire(libelle);
+            categorieProduitDao.save(cp);
+           
+            return 1;
+        }
     }
     
     

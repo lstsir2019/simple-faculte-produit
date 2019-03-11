@@ -23,8 +23,12 @@ public interface CategorieProduitService {
 
     public CategorieProduit findByLibelle(String libelle);
 
-    public int delate(String libelle);
+   
 
     public List<CategorieProduit> findByLibelleLike(String libelle);
+
+    public int deleteByLibelle(String libelle);
+    
+    public int updateCat(String libelle,CategorieProduit categorieProduit);
 
 }

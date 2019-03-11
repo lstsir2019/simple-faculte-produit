@@ -28,5 +28,7 @@ public interface TypeProduitService {
     public int deleteType(BigDecimal code);
 
      public List<TypeProduit> findByLibelleLikeType(String libelle);
+     
+     public int updateType(BigDecimal code,TypeProduit typeProduit);
 
 }

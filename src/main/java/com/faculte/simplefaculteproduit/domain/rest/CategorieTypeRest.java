@@ -16,12 +16,14 @@ import com.faculte.simplefaculteproduit.domain.rest.vo.CategorieProduitVo;
 import com.faculte.simplefaculteproduit.domain.rest.vo.TypeProduitVo;
 import java.math.BigDecimal;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,15 +68,25 @@ public class CategorieTypeRest {
         return cpvc.toVo(cps.findByLibelle(libelle));
     }
 
-    @DeleteMapping("/categorie/delete/{libelle}")
-    public int delate(@PathVariable String libelle) {
-      return cps.delate(libelle);
-    }
+  
  
     @GetMapping("/categorie/chercher")
     public List<CategorieProduitVo> findByLibelleLike(@RequestParam(name = "libelle",defaultValue = "") String libelle) {
         return cpvc.toVo(cps.findByLibelleLike(libelle+"%"));
     }
+   @DeleteMapping("/categorie/delete/{libelle}") 
+    public int deleteByLibelle(@PathVariable String libelle) {
+        return cps.deleteByLibelle(libelle);
+        
+    }
+   @PutMapping("/categorie/update/{libelle}")
+    public int updateCat(@PathVariable String libelle,@RequestBody CategorieProduitVo categorieProduitVo) {
+      CategorieProduit categorieProduit=  cpvc.toItem(categorieProduitVo);
+        return cps.updateCat(libelle, categorieProduit);
+    }
+
+    
+    
     
     
     //*********TYPE PRODUIT******************
@@ -103,6 +115,12 @@ public class CategorieTypeRest {
     public List<TypeProduitVo> findByLibelleLikeType(@RequestParam(name = "libelle",defaultValue = "") String libelle) {
         return tpvc.toVo(tps.findByLibelleLikeType(libelle+"%"));
     }
+    @PutMapping("/type/update/{code}")
+    public int updateType(@PathVariable BigDecimal code,@RequestBody TypeProduitVo typeProduitVo) {
+        TypeProduit tp=tpvc.toItem(typeProduitVo);
+        return tps.updateType(code, tp);
+    }
+   
 
   
     

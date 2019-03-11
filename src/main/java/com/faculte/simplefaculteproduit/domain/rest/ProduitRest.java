@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,6 +81,13 @@ public class ProduitRest {
     public int deleteProduit(@PathVariable String reference) {
         return produitService.deleteProduit(reference);
     }
+   @PutMapping("/update/reference/{reference}")
+    public int updateProduit(@PathVariable String reference,@RequestBody ProduitVo produitvo) {
+        Produit p=produitVoConverter.toItem(produitvo);
+        return produitService.updateProduit(reference, p);
+    }
+    
+    
     
 
    
