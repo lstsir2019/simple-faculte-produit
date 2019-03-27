@@ -10,6 +10,7 @@ import com.faculte.simplefaculteproduit.domain.bean.CategorieProduit;
 import com.faculte.simplefaculteproduit.domain.model.dao.CategorieProduitDao;
 import com.faculte.simplefaculteproduit.domain.model.service.CategorieProduitService;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +66,7 @@ public class CategorieProduitServiceImpl implements CategorieProduitService{
     public List<CategorieProduit> findByLibelleLike(String libelle) {
        return categorieProduitDao.findByLibelleLike(libelle);
     }
-
+    @Transactional
     @Override
     public int deleteByLibelle(String libelle) {
          categorieProduitDao.deleteByLibelle(libelle);

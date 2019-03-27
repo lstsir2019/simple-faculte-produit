@@ -15,6 +15,7 @@ import com.faculte.simplefaculteproduit.domain.model.service.ProduitService;
 import com.faculte.simplefaculteproduit.domain.model.service.TypeProduitService;
 import java.awt.print.Pageable;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -102,20 +103,31 @@ public class ProduitServiceImpl implements ProduitService {
             return 1;
         }
     }
-
+    
     @Override
-    public int updateProduit(String reference, Produit produit) {
-        Produit p=findByReference(reference);
+    @Transactional
+    public int updateProduit(Produit produit) {
+        Produit p=findByReference(produit.getReference());
         if(p==null){
             return -1;
         }else{
-            TypeProduit tp=typeProduitService.findTypeByCode(produit.getTypeProduit().getCode());
-            CategorieProduit cp=categorieProduitService.findByLibelle(produit.getCategorieProduit().getLibelle());
-            p.setReference(reference);
+            if(produit.getTypeProduit()!=null){
+                TypeProduit tp=typeProduitService.findTypeByCode(produit.getTypeProduit().getCode());
+                 p.setTypeProduit(tp);
+            }
+            if(produit.getCategorieProduit()!=null){
+                CategorieProduit cp=categorieProduitService.findByLibelle(produit.getCategorieProduit().getLibelle());
+                p.setCategorieProduit(cp);
+            }
+            if(produit.getLibelle()!=null){
+                 p.setLibelle(produit.getLibelle());
+            }
+//            p.setReference(reference);        
+            //p.setLibelle(produit.getLibelle());
+           
             
-            p.setLibelle(produit.getLibelle());
-//            p.setCategorieProduit(cp);
-//            p.setTypeProduit(tp);
+           
+                       
             produitDao.save(p);
             return 1;
         }

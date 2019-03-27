@@ -81,10 +81,12 @@ public class ProduitRest {
     public int deleteProduit(@PathVariable String reference) {
         return produitService.deleteProduit(reference);
     }
-   @PutMapping("/update/reference/{reference}")
-    public int updateProduit(@PathVariable String reference,@RequestBody ProduitVo produitvo) {
+   @PutMapping("/update/")
+    public int updateProduit(@RequestBody ProduitVo produitvo) {
         Produit p=produitVoConverter.toItem(produitvo);
-        return produitService.updateProduit(reference, p);
+        
+        return produitService.updateProduit(p);
+        
     }
     
     

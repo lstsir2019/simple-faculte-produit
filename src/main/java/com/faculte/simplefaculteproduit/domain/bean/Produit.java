@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
@@ -26,8 +28,10 @@ public class Produit implements Serializable {
     private String libelle;
     private String reference;
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private CategorieProduit categorieProduit;
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private TypeProduit typeProduit;
     public String getLibelle() {
         return libelle;

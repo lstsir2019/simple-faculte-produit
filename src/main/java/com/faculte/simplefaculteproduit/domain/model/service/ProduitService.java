@@ -30,7 +30,7 @@ public interface ProduitService {
 
     public int deleteProduit(String reference);
     
-    public int updateProduit(String reference,Produit produit);
+    public int updateProduit(Produit produit);
     
     
 }

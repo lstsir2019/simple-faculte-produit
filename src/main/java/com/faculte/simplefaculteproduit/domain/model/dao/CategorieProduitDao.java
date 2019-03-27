@@ -24,7 +24,7 @@ public interface CategorieProduitDao extends JpaRepository<CategorieProduit, Lon
 
     public List<CategorieProduit> findByLibelleLike(String libelle);
 
-    @Transactional
+  //  @Transactional
 //    @Modifying
 //    @Query("delete from CategorieProduit c where c.libelle = ?1")
     public void deleteByLibelle(String libelle);
