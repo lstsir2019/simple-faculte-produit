@@ -6,11 +6,14 @@
 package com.faculte.simplefaculteproduit.domain.bean;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import org.eclipse.persistence.annotations.CascadeOnDelete;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -18,7 +21,7 @@ import org.hibernate.annotations.OnDeleteAction;
  *
  * @author YOUNES
  */
-@Entity
+@Entity(name = "produit")
 public class Produit implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,8 +30,9 @@ public class Produit implements Serializable {
     private Long id;
     private String libelle;
     private String reference;
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.ALL})
+   // @OnDelete(action = OnDeleteAction.CASCADE)
+    @CascadeOnDelete
     private CategorieProduit categorieProduit;
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)

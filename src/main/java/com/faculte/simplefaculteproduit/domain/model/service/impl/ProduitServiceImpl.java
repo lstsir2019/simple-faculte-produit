@@ -14,6 +14,7 @@ import com.faculte.simplefaculteproduit.domain.model.service.CategorieProduitSer
 import com.faculte.simplefaculteproduit.domain.model.service.ProduitService;
 import com.faculte.simplefaculteproduit.domain.model.service.TypeProduitService;
 import java.awt.print.Pageable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,6 +132,36 @@ public class ProduitServiceImpl implements ProduitService {
             produitDao.save(p);
             return 1;
         }
+    }
+
+    @Override
+    public List<Produit> findByCategorieProduitLibelle(String libelle) {
+      List<Produit> p=produitDao.findByCategorieProduitLibelle(libelle);
+      if(p==null){
+          return null;
+      }else{
+          return p;
+      }
+    }
+
+    @Override
+    public List<Produit> findByTypeProduitCode(BigDecimal code) {
+        List<Produit> p=produitDao.findByTypeProduitCode(code);
+        if(p==null){
+            return null;
+        }else{
+            return p;
+        }
+    }
+
+    @Override
+    public void deleteByCategorieProduitLibelle(String libelle) {
+        produitDao.deleteByCategorieProduitLibelle(libelle);
+    }
+
+    @Override
+    public void deleteByTypeProduitCode(BigDecimal code) {
+        produitDao.deleteByTypeProduitCode(code);
     }
 
    

@@ -6,8 +6,11 @@
 package com.faculte.simplefaculteproduit.domain.model.dao;
 
 
+import com.faculte.simplefaculteproduit.domain.bean.CategorieProduit;
 import com.faculte.simplefaculteproduit.domain.bean.Produit;
+import com.faculte.simplefaculteproduit.domain.bean.TypeProduit;
 import java.awt.print.Pageable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -28,8 +31,20 @@ public interface ProduitDao extends JpaRepository<Produit, Long>,PagingAndSortin
     
    
     public List<Produit> findByReferenceLike(String reference);
+    
+    public  List<Produit> findByCategorieProduitLibelle(String libelle);
+    
+    public List<Produit> findByTypeProduitCode(BigDecimal code);
+    
   @Transactional
   public void deleteByReference(String reference);
+  
+  @Transactional
+  public void deleteByCategorieProduitLibelle(String libelle);
+  
+  @Transactional
+  public void deleteByTypeProduitCode(BigDecimal code);
+  
   
     
 }

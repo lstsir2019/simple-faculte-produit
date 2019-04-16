@@ -5,7 +5,6 @@
  */
 package com.faculte.simplefaculteproduit.domain.rest;
 
-
 import com.faculte.simplefaculteproduit.domain.bean.Produit;
 import com.faculte.simplefaculteproduit.domain.model.dao.ProduitDao;
 import com.faculte.simplefaculteproduit.domain.model.service.ProduitService;
@@ -40,15 +39,13 @@ public class ProduitRest {
     @Autowired
     private ProduitService produitService;
     @Autowired
-    private ProduitDao  dao;      
+    private ProduitDao dao;
 
-   
-     ProduitVoConverter produitVoConverter = new ProduitVoConverter();
-     
+    ProduitVoConverter produitVoConverter = new ProduitVoConverter();
 
     @PostMapping("/")
     public int save(@RequestBody ProduitVo produitVo) {
-        Produit p=produitVoConverter.toItem(produitVo);
+        Produit p = produitVoConverter.toItem(produitVo);
         return produitService.save(p);
     }
 
@@ -65,37 +62,41 @@ public class ProduitRest {
 
     @GetMapping("/")
     public List<ProduitVo> findAll() {
-        
+
         return new ProduitVoConverter().toVo(produitService.findAll());
     }
-   
-   @GetMapping("/chercher")
-    public List<ProduitVo> findByReferenceLike(@RequestParam(name = "reference",defaultValue = "")String reference
-    ) 
-    {
-        
-        return new  ProduitVoConverter().toVo(produitService.findByReferenceLike(reference+"%"));
+
+    @GetMapping("/chercher")
+    public List<ProduitVo> findByReferenceLike(@RequestParam(name = "reference", defaultValue = "") String reference ) {
+
+        return new ProduitVoConverter().toVo(produitService.findByReferenceLike(reference + "%"));
     }
-   
+
     @DeleteMapping("/delete/{reference}")
     public int deleteProduit(@PathVariable String reference) {
         return produitService.deleteProduit(reference);
     }
-   @PutMapping("/update/")
-    public int updateProduit(@RequestBody ProduitVo produitvo) {
-        Produit p=produitVoConverter.toItem(produitvo);
-        
-        return produitService.updateProduit(p);
-        
-    }
-    
-    
-    
 
-   
-    
+    @PutMapping("/update/")
+    public int updateProduit(@RequestBody ProduitVo produitvo) {
+        Produit p = produitVoConverter.toItem(produitvo);
+
+        return produitService.updateProduit(p);
+
+    }
+
+    @GetMapping("/chercher/categorie/libelle/{libelle}")
+    public List<ProduitVo> findByCategorieProduitLibelle(@PathVariable String libelle) {
+        return new ProduitVoConverter().toVo(produitService.findByCategorieProduitLibelle(libelle));
+    }
+
+    @DeleteMapping("/delete/categori/libelle/{libelle}")
+    public void deleteByCategorieProduitLibelle(@PathVariable String libelle) {
+        produitService.deleteByCategorieProduitLibelle(libelle);
+
+    }
+
 ///////////////////////////////////////////////////////
-    
     public ProduitService getProduitService() {
         return produitService;
     }
@@ -112,6 +113,4 @@ public class ProduitRest {
         this.dao = dao;
     }
 
-   
-    
 }

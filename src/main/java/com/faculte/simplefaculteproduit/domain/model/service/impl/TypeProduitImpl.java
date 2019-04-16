@@ -6,8 +6,10 @@
 package com.faculte.simplefaculteproduit.domain.model.service.impl;
 
 
+import com.faculte.simplefaculteproduit.domain.bean.Produit;
 import com.faculte.simplefaculteproduit.domain.bean.TypeProduit;
 import com.faculte.simplefaculteproduit.domain.model.dao.TypeProduitDao;
+import com.faculte.simplefaculteproduit.domain.model.service.ProduitService;
 import com.faculte.simplefaculteproduit.domain.model.service.TypeProduitService;
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,6 +24,8 @@ import org.springframework.stereotype.Service;
 public class TypeProduitImpl implements TypeProduitService{
     @Autowired
     TypeProduitDao typeProduitDao;
+    @Autowired
+    ProduitService produitService;
      
     @Override
     public int save(TypeProduit typeProduit) {
@@ -63,10 +67,14 @@ public class TypeProduitImpl implements TypeProduitService{
 
     @Override
     public int deleteType(BigDecimal code) {
+        List<Produit> p=produitService.findByTypeProduitCode(code);
         TypeProduit tp=findTypeByCode(code);
         if(tp==null){
             return -1;
         }else{
+            if(!p.isEmpty() && p!=null){
+            produitService.deleteByTypeProduitCode(code);
+         }
             typeProduitDao.delete(tp);
             return 1;
         }

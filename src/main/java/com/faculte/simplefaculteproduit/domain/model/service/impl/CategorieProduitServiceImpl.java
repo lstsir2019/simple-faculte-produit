@@ -7,8 +7,11 @@ package com.faculte.simplefaculteproduit.domain.model.service.impl;
 
 
 import com.faculte.simplefaculteproduit.domain.bean.CategorieProduit;
+import com.faculte.simplefaculteproduit.domain.bean.Produit;
 import com.faculte.simplefaculteproduit.domain.model.dao.CategorieProduitDao;
 import com.faculte.simplefaculteproduit.domain.model.service.CategorieProduitService;
+import com.faculte.simplefaculteproduit.domain.model.service.ProduitService;
+import com.sun.pisces.PiscesRenderer;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ import org.springframework.stereotype.Service;
 public class CategorieProduitServiceImpl implements CategorieProduitService{
     @Autowired
     private CategorieProduitDao categorieProduitDao;
+    @Autowired
+    private ProduitService produitService;
+    
 
   
     
@@ -69,6 +75,11 @@ public class CategorieProduitServiceImpl implements CategorieProduitService{
     @Transactional
     @Override
     public int deleteByLibelle(String libelle) {
+         List<Produit> p=produitService.findByCategorieProduitLibelle(libelle); 
+         
+         if(!p.isEmpty() && p!=null){
+            produitService.deleteByCategorieProduitLibelle(libelle);
+         }
          categorieProduitDao.deleteByLibelle(libelle);
          return 1;
     }
