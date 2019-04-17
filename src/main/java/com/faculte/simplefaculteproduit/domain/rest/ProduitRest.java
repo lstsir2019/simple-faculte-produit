@@ -10,12 +10,10 @@ import com.faculte.simplefaculteproduit.domain.model.dao.ProduitDao;
 import com.faculte.simplefaculteproduit.domain.model.service.ProduitService;
 import com.faculte.simplefaculteproduit.domain.rest.converter.ProduitVoConverter;
 import com.faculte.simplefaculteproduit.domain.rest.vo.ProduitVo;
-import java.awt.print.Pageable;
+import com.faculte.simplefaculteproduit.search.ProduitSearch;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +38,9 @@ public class ProduitRest {
     private ProduitService produitService;
     @Autowired
     private ProduitDao dao;
+
+    @Autowired
+    private ProduitSearch produitSearch;
 
     ProduitVoConverter produitVoConverter = new ProduitVoConverter();
 
@@ -67,7 +68,7 @@ public class ProduitRest {
     }
 
     @GetMapping("/chercher")
-    public List<ProduitVo> findByReferenceLike(@RequestParam(name = "reference", defaultValue = "") String reference ) {
+    public List<ProduitVo> findByReferenceLike(@RequestParam(name = "reference", defaultValue = "") String reference) {
 
         return new ProduitVoConverter().toVo(produitService.findByReferenceLike(reference + "%"));
     }
@@ -96,6 +97,21 @@ public class ProduitRest {
 
     }
 
+    @PostMapping("/search/query")
+    public List<ProduitVo> searchProsuitByQuery(@RequestBody ProduitVo produitVo) {
+        String cat = null;
+        BigDecimal code = null;
+        Produit p = produitVoConverter.toItem(produitVo);
+        if (p.getCategorieProduit() != null) {
+            cat = p.getCategorieProduit().getLibelle();
+        }
+        if (p.getTypeProduit() != null) {
+            code = p.getTypeProduit().getCode();
+        }
+        return produitVoConverter.toVo(produitSearch.searchProsuitByQuery(p.getReference(),cat, code));
+
+    }
+
 ///////////////////////////////////////////////////////
     public ProduitService getProduitService() {
         return produitService;
@@ -111,6 +127,14 @@ public class ProduitRest {
 
     public void setDao(ProduitDao dao) {
         this.dao = dao;
+    }
+
+    public ProduitSearch getProduitSearch() {
+        return produitSearch;
+    }
+
+    public void setProduitSearch(ProduitSearch produitSearch) {
+        this.produitSearch = produitSearch;
     }
 
 }

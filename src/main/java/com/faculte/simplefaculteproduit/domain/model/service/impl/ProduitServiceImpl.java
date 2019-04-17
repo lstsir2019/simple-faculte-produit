@@ -5,7 +5,6 @@
  */
 package com.faculte.simplefaculteproduit.domain.model.service.impl;
 
-
 import com.faculte.simplefaculteproduit.domain.bean.CategorieProduit;
 import com.faculte.simplefaculteproduit.domain.bean.Produit;
 import com.faculte.simplefaculteproduit.domain.bean.TypeProduit;
@@ -13,6 +12,7 @@ import com.faculte.simplefaculteproduit.domain.model.dao.ProduitDao;
 import com.faculte.simplefaculteproduit.domain.model.service.CategorieProduitService;
 import com.faculte.simplefaculteproduit.domain.model.service.ProduitService;
 import com.faculte.simplefaculteproduit.domain.model.service.TypeProduitService;
+import com.faculte.simplefaculteproduit.search.ProduitSearch;
 import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -36,6 +36,9 @@ public class ProduitServiceImpl implements ProduitService {
 
     @Autowired
     private CategorieProduitService categorieProduitService;
+
+    @Autowired
+    private ProduitSearch produitSearch;
 
     public int save(Produit produit) {
         Produit p = produitDao.findByReference(produit.getReference());
@@ -61,9 +64,17 @@ public class ProduitServiceImpl implements ProduitService {
         return produitDao.getOne(id);
     }
 
-   public List<Produit> findAll() {
-       return produitDao.findAll();
-   }
+    public List<Produit> findAll() {
+        return produitDao.findAll();
+    }
+
+    public ProduitSearch getProduitSearch() {
+        return produitSearch;
+    }
+
+    public void setProduitSearch(ProduitSearch produitSearch) {
+        this.produitSearch = produitSearch;
+    }
 
     public TypeProduitService getTypeProduitService() {
         return typeProduitService;
@@ -96,39 +107,36 @@ public class ProduitServiceImpl implements ProduitService {
 
     @Override
     public int deleteProduit(String reference) {
-        Produit p=findByReference(reference);
-        if(p==null){
+        Produit p = findByReference(reference);
+        if (p == null) {
             return -1;
-        }else{
+        } else {
             produitDao.delete(p);
             return 1;
         }
     }
-    
+
     @Override
     @Transactional
     public int updateProduit(Produit produit) {
-        Produit p=findByReference(produit.getReference());
-        if(p==null){
+        Produit p = findByReference(produit.getReference());
+        if (p == null) {
             return -1;
-        }else{
-            if(produit.getTypeProduit()!=null){
-                TypeProduit tp=typeProduitService.findTypeByCode(produit.getTypeProduit().getCode());
-                 p.setTypeProduit(tp);
+        } else {
+            if (produit.getTypeProduit() != null) {
+                TypeProduit tp = typeProduitService.findTypeByCode(produit.getTypeProduit().getCode());
+                p.setTypeProduit(tp);
             }
-            if(produit.getCategorieProduit()!=null){
-                CategorieProduit cp=categorieProduitService.findByLibelle(produit.getCategorieProduit().getLibelle());
+            if (produit.getCategorieProduit() != null) {
+                CategorieProduit cp = categorieProduitService.findByLibelle(produit.getCategorieProduit().getLibelle());
                 p.setCategorieProduit(cp);
             }
-            if(produit.getLibelle()!=null){
-                 p.setLibelle(produit.getLibelle());
+            if (produit.getLibelle() != null) {
+                p.setLibelle(produit.getLibelle());
             }
 //            p.setReference(reference);        
             //p.setLibelle(produit.getLibelle());
-           
-            
-           
-                       
+
             produitDao.save(p);
             return 1;
         }
@@ -136,20 +144,20 @@ public class ProduitServiceImpl implements ProduitService {
 
     @Override
     public List<Produit> findByCategorieProduitLibelle(String libelle) {
-      List<Produit> p=produitDao.findByCategorieProduitLibelle(libelle);
-      if(p==null){
-          return null;
-      }else{
-          return p;
-      }
+        List<Produit> p = produitDao.findByCategorieProduitLibelle(libelle);
+        if (p == null) {
+            return null;
+        } else {
+            return p;
+        }
     }
 
     @Override
     public List<Produit> findByTypeProduitCode(BigDecimal code) {
-        List<Produit> p=produitDao.findByTypeProduitCode(code);
-        if(p==null){
+        List<Produit> p = produitDao.findByTypeProduitCode(code);
+        if (p == null) {
             return null;
-        }else{
+        } else {
             return p;
         }
     }
@@ -164,6 +172,9 @@ public class ProduitServiceImpl implements ProduitService {
         produitDao.deleteByTypeProduitCode(code);
     }
 
-   
+    @Override
+    public List<Produit> searchByQuery(String reference, String categorieLibelle , BigDecimal typeCode) {
+        return produitSearch.searchProsuitByQuery(reference,categorieLibelle , typeCode);
+    }
 
 }

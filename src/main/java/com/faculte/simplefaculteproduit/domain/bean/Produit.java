@@ -6,22 +6,17 @@
 package com.faculte.simplefaculteproduit.domain.bean;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import org.eclipse.persistence.annotations.CascadeOnDelete;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
  * @author YOUNES
  */
-@Entity(name = "produit")
+@Entity
 public class Produit implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,13 +25,11 @@ public class Produit implements Serializable {
     private Long id;
     private String libelle;
     private String reference;
-    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.ALL})
-   // @OnDelete(action = OnDeleteAction.CASCADE)
-    @CascadeOnDelete
+    @ManyToOne
     private CategorieProduit categorieProduit;
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private TypeProduit typeProduit;
+
     public String getLibelle() {
         return libelle;
     }
@@ -60,8 +53,6 @@ public class Produit implements Serializable {
     public void setCategorieProduit(CategorieProduit categorieProduit) {
         this.categorieProduit = categorieProduit;
     }
-    
-    
 
     public Long getId() {
         return id;
@@ -104,6 +95,4 @@ public class Produit implements Serializable {
         return "Produit{" + "id=" + id + ", libelle=" + libelle + ", reference=" + reference + ", categorieProduit=" + categorieProduit + ", typeProduit=" + typeProduit + '}';
     }
 
-  
-    
 }

@@ -5,7 +5,9 @@
  */
 package com.faculte.simplefaculteproduit.domain.model.service;
 
+import com.faculte.simplefaculteproduit.domain.bean.CategorieProduit;
 import com.faculte.simplefaculteproduit.domain.bean.Produit;
+import com.faculte.simplefaculteproduit.domain.bean.TypeProduit;
 import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -30,15 +32,16 @@ public interface ProduitService {
     public List<Produit> findByReferenceLike(String reference);
 
     public int deleteProduit(String reference);
-    
+
     public int updateProduit(Produit produit);
-    
-     public  List<Produit> findByCategorieProduitLibelle(String libelle);
-     
-     public List<Produit> findByTypeProduitCode(BigDecimal code);
-     
-     public void deleteByCategorieProduitLibelle(String libelle);
-     
-      public void deleteByTypeProduitCode(BigDecimal code);
-    
+
+    public List<Produit> findByCategorieProduitLibelle(String libelle);
+
+    public List<Produit> findByTypeProduitCode(BigDecimal code);
+
+    public void deleteByCategorieProduitLibelle(String libelle);
+
+    public void deleteByTypeProduitCode(BigDecimal code);
+
+    public List<Produit> searchByQuery(String reference, String categorieLibelle, BigDecimal typeCode);
 }
