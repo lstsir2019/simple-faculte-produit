@@ -29,8 +29,8 @@ public class ProduitSearch {
         String query = "SELECT p FROM Produit p WHERE 1=1";
 
         query += SearchUtil.addConstraint("p", "reference", "LIKE", reference);
-        query += SearchUtil.addConstraint("p", "categorieProduit.libelle", "=", categorieLibelle);
-        query += SearchUtil.addConstraint("p", "typeProduit.code", "=", typeCode);
+        query += SearchUtil.addConstraint("p", "categorieProduit.libelle", "LIKE", categorieLibelle);
+        query += SearchUtil.addConstraint("p", "typeProduit.code", "LIKE", typeCode);
 //        if (categorieLibelle != null && !categorieLibelle.equals("")) {
 //            query += "AND p.categorieProduit.libelle='" + categorieLibelle + "'";
 //        }
