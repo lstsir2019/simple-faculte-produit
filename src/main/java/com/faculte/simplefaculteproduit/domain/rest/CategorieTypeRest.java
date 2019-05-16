@@ -6,18 +6,25 @@
 package com.faculte.simplefaculteproduit.domain.rest;
 
 
+import com.faculte.simplefaculteproduit.commun.pdf.GeneratePdf;
 import com.faculte.simplefaculteproduit.domain.bean.CategorieProduit;
+import com.faculte.simplefaculteproduit.domain.bean.Produit;
 import com.faculte.simplefaculteproduit.domain.bean.TypeProduit;
 import com.faculte.simplefaculteproduit.domain.model.service.CategorieProduitService;
+import com.faculte.simplefaculteproduit.domain.model.service.ProduitService;
 import com.faculte.simplefaculteproduit.domain.model.service.TypeProduitService;
 import com.faculte.simplefaculteproduit.domain.rest.converter.CategorieProduitVoConverter;
 import com.faculte.simplefaculteproduit.domain.rest.converter.TypeProduitVoConverter;
 import com.faculte.simplefaculteproduit.domain.rest.vo.CategorieProduitVo;
 import com.faculte.simplefaculteproduit.domain.rest.vo.TypeProduitVo;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
-import javax.validation.Valid;
+import java.util.Map;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +48,8 @@ public class CategorieTypeRest {
     private CategorieProduitService cps;
     @Autowired 
     private TypeProduitService tps;
+    @Autowired
+    private ProduitService produitService;
     
     CategorieProduitVoConverter cpvc=new CategorieProduitVoConverter();
     TypeProduitVoConverter tpvc=new TypeProduitVoConverter();
@@ -120,7 +129,50 @@ public class CategorieTypeRest {
         TypeProduit tp=tpvc.toItem(typeProduitVo);
         return tps.updateType(code, tp);
     }
-   
+    
+      @GetMapping("/pdf/Libelle/{libelle}")
+    public ResponseEntity<Object> reportCategorie(@PathVariable String libelle)throws JRException, IOException{
+        Map<String,Object> params=new HashMap<>();
+        
+        List<Produit>  produits= produitService.findByCategorieProduitLibelle(libelle);
+        CategorieProduit cp=cps.findByLibelle(libelle);
+        
+        
+        
+        params.put("libelle",cp.getLibelle());
+        params.put("referenceCompteBuditaire",cp.getReferenceCompteBuditaire());
+      
+         if(produits==null || produits.isEmpty()){
+            Produit p =new Produit();
+            produits.add(p);
+        }
+      
+       
+        
+        return GeneratePdf.generate("test", params,produits, "/rapport/rapport.jasper");
+    }
+    
+    
+    @GetMapping("/pdf/code/{code}")
+    public ResponseEntity<Object> reportType(@PathVariable BigDecimal code)throws JRException, IOException{
+        Map<String,Object> params=new HashMap<>();
+        
+        List<Produit>  produits= produitService.findByTypeProduitCode(code);
+        TypeProduit typeProduit=tps.findTypeByCode(code);
+        
+        
+        
+        params.put("libelle",typeProduit.getLibelle());
+        params.put("code",typeProduit.getCode());
+        if(produits==null || produits.isEmpty()){
+            Produit p =new Produit();
+            produits.add(p);
+        }
+      
+       
+        
+        return GeneratePdf.generate("test", params,produits, "/rapport/rapportType.jasper");
+    }
 
   
     
@@ -143,6 +195,15 @@ public class CategorieTypeRest {
     public void setCps(CategorieProduitService cps) {
         this.cps = cps;
     }
+
+    public ProduitService getProduitService() {
+        return produitService;
+    }
+
+    public void setProduitService(ProduitService produitService) {
+        this.produitService = produitService;
+    }
+    
     
     
     
