@@ -15,7 +15,7 @@
 		<band height="116" splitType="Stretch">
 			<image>
 				<reportElement x="119" y="0" width="316" height="116" uuid="79dade05-a70f-4a07-aac4-42148cbf6504"/>
-				<imageExpression><![CDATA["C:\\Users\\gouss\\Desktop\\Dessin12.png"]]></imageExpression>
+				<imageExpression><![CDATA["C:\\simple-faculte\\budget\\assets\\image\\fstg.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
